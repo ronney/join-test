@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class ProductsController extends Controller
 {

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CategoriesController extends Controller
 {
@@ -12,7 +15,7 @@ class CategoriesController extends Controller
     */
    public function index()
    {
-    $categories =  Category::all();
+     $categories =  Category::orderBy('nome_categoria','ASC')->get();
      return response()->json($categories, 200);
    }
 //
@@ -21,10 +24,21 @@ class CategoriesController extends Controller
     */
    public function store(Request $request)
    {
-       $category = Category::create($request->all());
-       $msg = ['message'=>'Registro cadastrado com sucesso!'];
+        $msg = '';
+        $description = '';
+        $code = 200;
+        DB::beginTransaction();
+        try {
+            $category = Category::create($request->all());
+            $msg = ['message'=>'Registro cadastrado com sucesso! '];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao cadastradar registro! '.$e->getMessage()];
+        }
 
-       return response()->json($msg, 200);
+       return response()->json($msg, $code);
    }
 
    /**
@@ -41,9 +55,20 @@ class CategoriesController extends Controller
     */
    public function update(Request $request, int $id)
    {
-        $category = Category::where('id_categoria_produto',$id)->update($request->all());
-        $msg = ['message'=>'Registro editado com sucesso!'];
-        return response()->json($msg, 200);
+    $msg = '';
+        $description = '';
+        $code = 200;
+        DB::beginTransaction();
+        try {
+            $category = Category::where('id_categoria_produto',$id)->update($request->all());
+            $msg = ['message'=>'Registro editado com sucesso!'];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao editar o registro! '.$e->getMessage()];
+        }
+        return response()->json($msg, $code);
    }
 
    /**
@@ -51,9 +76,20 @@ class CategoriesController extends Controller
     */
    public function destroy(int $id)
    {
-        $category = Category::where('id_categoria_produto',$id)->delete();
-        $msg = ['message'=>'Registro apagado!'];
-        return response()->json($msg, 200);
+        $msg = '';
+        $description = '';
+        $code = 200;
+        DB::beginTransaction();
+        try {
+            $category = Category::where('id_categoria_produto',$id)->delete();
+            $msg = ['message'=>'Registro apagado!'];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao apagar o registro! '.$e->getMessage()];
+        }
+        return response()->json($msg, $code);
 
    }
 }
