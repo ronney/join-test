@@ -24,8 +24,19 @@ class ProductsController extends Controller
     */
    public function store(Request $request)
    {
-       $product = Product::create($request->all());
-       $msg = ['message'=>'Registro cadastrado com sucesso!'];
+       $msg = '';
+       $description = '';
+       $code = 200;
+       DB::beginTransaction();
+       try {
+            $product = Product::create($request->all());
+            $msg = ['message'=>'Registro cadastrado com sucesso!'];
+            DB::commit();
+       } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao cadastradar registro! '.$e->getMessage()];
+       }
 
        return response()->json($msg, 200);
    }
@@ -43,10 +54,20 @@ class ProductsController extends Controller
     * Update the specified resource in storage.
     */
    public function update(Request $request, int $id)
-   {
-        $product = Product::where('id_produto',$id)->update($request->all());
-        $msg = ['message'=>'Registro editado com sucesso!'];
-        return response()->json($msg, 200);
+   {    $msg = '';
+        $description = '';
+        $code = 200;
+        DB::beginTransaction();
+        try {
+            $product = Product::where('id_produto',$id)->update($request->all());
+            $msg = ['message'=>'Registro editado com sucesso!'];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao editar o registro! '.$e->getMessage()];
+        }
+        return response()->json($msg,  $code);
    }
 
    /**
@@ -54,9 +75,20 @@ class ProductsController extends Controller
     */
    public function destroy(int $id)
    {
-        $product = Product::where('id_produto',$id)->delete();
-        $msg = ['message'=>'Registro apagado!'];
-        return response()->json($msg, 200);
+        $msg = '';
+        $description = '';
+        $code = 200;
+        DB::beginTransaction();
+        try {
+            $product = Product::where('id_produto',$id)->delete();
+            $msg = ['message'=>'Registro apagado!'];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            $code = 500;
+            $msg = ['message'=>'Erro ao apagar o registro! '.$e->getMessage()];
+        }
+        return response()->json($msg,  $code);
 
    }
 }

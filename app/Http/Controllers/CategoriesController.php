@@ -55,7 +55,7 @@ class CategoriesController extends Controller
     */
    public function update(Request $request, int $id)
    {
-    $msg = '';
+        $msg = '';
         $description = '';
         $code = 200;
         DB::beginTransaction();
