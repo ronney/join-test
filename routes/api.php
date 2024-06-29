@@ -19,17 +19,17 @@ use App\Http\Controllers\CategoriesController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
- Route::post('categories', [CategoriesController::class ,'store'])->name('categories.store');
- Route::get('categories', [CategoriesController::class ,'index'])->name('categories.index');
- Route::get('categories/{id}', [CategoriesController::class ,'show'])->name('categories.show');
- Route::put('categories/{id}', [CategoriesController::class ,'update'])->name('categories.update');
- Route::delete('categories/{id}', [CategoriesController::class ,'destroy'])->name('categories.destroy');
+ Route::post('categorias', [CategoriesController::class ,'store'])->name('categorias.store');
+ Route::get('categorias', [CategoriesController::class ,'index'])->name('categorias.index');
+ Route::get('categorias/{id}', [CategoriesController::class ,'show'])->name('categorias.show');
+ Route::put('categorias/{id}', [CategoriesController::class ,'update'])->name('categorias.update');
+ Route::delete('categorias/{id}', [CategoriesController::class ,'destroy'])->name('categorias.destroy');
 
- Route::post('products', [ProductsController::class ,'store'])->name('products.store');
- Route::get('products', [ProductsController::class ,'index'])->name('products.index');
- Route::get('products/{id}', [ProductsController::class ,'show'])->name('products.show');
- Route::put('products/{id}', [ProductsController::class ,'update'])->name('products.update');
- Route::delete('products/{id}', [ProductsController::class ,'destroy'])->name('products.destroy');
+ Route::post('produtos', [ProductsController::class ,'store'])->name('produtos.store');
+ Route::get('produtos', [ProductsController::class ,'index'])->name('produtos.index');
+ Route::get('produtos/{id}', [ProductsController::class ,'show'])->name('produtos.show');
+ Route::put('produtos/{id}', [ProductsController::class ,'update'])->name('produtos.update');
+ Route::delete('produtos/{id}', [ProductsController::class ,'destroy'])->name('produtos.destroy');
 
 
 
